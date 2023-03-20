@@ -1,3 +1,5 @@
+`Warning: You are currently not on master!`
+
 # 🤖 robot-reboot
 
 **Author:**       Elias Nijs  \
