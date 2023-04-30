@@ -27,9 +27,5 @@ main :-
 play(F) :-
         read_file_to_string(F, S, []),
 	parse(S, Puzzle),
-	play_loop(Puzzle, []).
-
-play_loop(Puzzle, Moves) :-
-	writeln(Puzzle),
-	writeln(Moves).
+	writeln(Puzzle).
 
