@@ -1,18 +1,35 @@
-:- use_module(animate).
+:- initialization(main).
+:- use_module(library(clpfd)).
+:- use_module(library(optparse)).
+:- [utils].
+:- [parser].
 
-:- initialization main.
+option_spec([
+	[opt(game), 	longflags([game]),	default([])],
+	[opt(solve),	longflags([solve]),	default([])],
+	[opt(gen), 	longflags([gen]),	default([])],
+	[opt(test), 	longflags([test]),	default([])]
+	]).
+parse_args(Argv, Opts) :-
+	option_spec(OptSpec),
+    	opt_parse(OptSpec, Argv, Opts, _).
 
-%!  next_world(?X:int, +I:string, -Y:int) is det
-%!  next_world(+X:int, ?I:string, -Y:int) is det
-%   
-%   Based on the current world and command-line input, outputs the new world.
-next_world(_, "R", 0).
-next_world(X, _, Y) :- Y is X + 1.
+main :-
+	current_prolog_flag(argv, Argv),
+	parse_args(Argv, Opts),
+	( memberchk(game([Term|_]), Opts) ->
+		term_to_atom(Term, File),
+		play(File)
+	;
+		writeln('invalid options!')
+	).
 
-%!  next_world(?N, ?Picture) is det
-%   
-%   True if *Picture* is the screen representation of the world *N*.
-picture(N, text(M, Colour)) :-
-    number_string(N, M), red(Colour).
+play(F) :-
+        read_file_to_string(F, S, []),
+	parse(S, Puzzle),
+	play_loop(Puzzle, []).
 
-main :- animate(0,picture,next_world), halt.
+play_loop(Puzzle, Moves) :-
+	writeln(Puzzle),
+	writeln(Moves).
+
