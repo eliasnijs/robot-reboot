@@ -1,5 +1,3 @@
-% Helpers
-
 parse_entities([_], _, _, [], target(0, 0)).
 parse_entities([C|Cs], X, Y, Robots, Target) :-
 	% Next parsing step
@@ -24,4 +22,3 @@ parse(S, puzzle(Board, Robots, Target)) :-
 	string_chars(S, Cs),
 	parse_board(Cs, Board),
 	parse_entities(Cs, 0, 0, Robots, Target).
-
