@@ -16,8 +16,11 @@ ansi(italic, 		'\033[3m').
 ansi(underline, 	'\033[4m').
 ansi(blink, 		'\033[5m').
 ansi(inverse, 		'\033[7m').
-ansi(hidden, 		'\033[7m').
-ansi(strikethrough, 	'\033[7m').
+ansi(hidden, 		'\033[8m').
+ansi(strikethrough, 	'\033[9m').
+
+ansi(cursor_hidden, 	'\033[?25l').
+ansi(cursor_visible, 	'\033[?25h').
 
 ansi(fg(R,G,B), S) :-
     build_string(['\033[38;2;', R, ';', G, ';', B, 'm'], S).

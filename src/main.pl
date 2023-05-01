@@ -9,6 +9,7 @@
 :- [display].
 :- [input].
 :- [play].
+:- [static_screens].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],
