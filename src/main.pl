@@ -4,6 +4,7 @@
 :- use_module(library(lists)).
 
 :- [utils].
+:- [ansi].
 :- [parser].
 :- [display].
 
@@ -23,11 +24,10 @@ main :-
 	( memberchk(game([Term|_]), Opts) ->
 		term_to_atom(Term, File),
 		play(File)
-	;
-		writeln('invalid options!')
-	).
+	; writeln('invalid options!')).
 
 play(F) :-
         read_file_to_string(F, S, []),
 	parse(S, Puzzle),
+	display(Puzzle),
 	display(Puzzle).

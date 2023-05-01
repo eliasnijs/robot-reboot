@@ -35,12 +35,3 @@ set_element(L0, X, Y, E, L) :-
 
 build_string(L, S) :-
 	atomic_list_concat(L, S).
-
-ansi(reset, 	'\033[0m').
-ansi(bold, 	'\033[22m').
-ansi(blink, 	'\033[25m').
-ansi(inverse, 	'\033[27m').
-ansi(fg(R,G,B), S) :-
-    build_string(['\033[38;2;', R, ';', G, ';', B, 'm'], S).
-ansi(bg(R,G,B), S) :-
-    build_string(['\033[48;2;', R, ';', G, ';', B, 'm'], S).
