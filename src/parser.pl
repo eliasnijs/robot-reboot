@@ -12,6 +12,7 @@ parse_characters([C|Cs], X, Y, Robots, Target, Tiles) :-
 
 parse(S, puzzle(board(W, H, Tiles), Robots, Target)) :-
 	string_chars(S, Cs),
-	parse_characters(Cs, 0, 0, Robots, Target, Tiles),
+	parse_characters(Cs, 0, 0, Robots0, Target, Tiles),
 	length(Tiles, H),
-	(Tiles = [] -> W = 0 ; Tiles = [R0|_], length(R0, W) ).
+	(Tiles = [] -> W = 0 ; Tiles = [R0|_], length(R0, W) ),
+	sort(1, @=<, Robots0, Robots).

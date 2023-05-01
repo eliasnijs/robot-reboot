@@ -7,6 +7,8 @@
 :- [ansi].
 :- [parser].
 :- [display].
+:- [input].
+:- [play].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],
@@ -23,11 +25,7 @@ main :-
 	parse_args(Argv, Opts),
 	( memberchk(game([Term|_]), Opts) ->
 		term_to_atom(Term, File),
-		play(File)
+		play_setup(File, Session),
+		play_loop(Session)
 	; writeln('invalid options!')).
 
-play(F) :-
-        read_file_to_string(F, S, []),
-	parse(S, Puzzle),
-	display(Puzzle),
-	display(Puzzle).

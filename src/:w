@@ -1,0 +1,31 @@
+play_setup(F, Session) :-
+        read_file_to_string(F, S, []),
+	parse(S, Puzzle),
+	writeln(Puzzle),
+	Session = session(Puzzle, 0, []).
+
+play_loop(S0) :-
+	S0 = session(Puzzle, _, _),
+	display(Puzzle),
+	get_input(C),
+	play_handle_input(S0, C, S),
+	display(S).
+
+% Handle selection input 'f' and 'd'
+play_handle_input(session(P, ID0, H), C, session(P, ID, H)) :-
+	P = puzzle(_, Rs, _),
+	length(Rs, N),
+	( C = 'f' -> ID = (ID0 + 1) mod N
+	; C = 'd' -> ID = (ID0 - 1) mod N).
+
+% Handle move input 'h', 'j', 'k', 'l'
+play_handle_input(session(P0, ID, H), C, session(P, ID, H)) :-
+	P0 = puzzle(B, Rs0, T),
+	nth0(ID, Rs0, robot(R_ID, R_DV, R_Pos0))
+	( C = 'h' -> Dir = vec2(-1, 0)
+	; C = 'j' -> Dir = vec2(-1, 0)
+	; C = 'k' -> Dir = vec2(-1, 0)
+	; C = 'l' -> Dir = vec2(1, 0)),
+	vec2_add(R_Pos0, Dir, R_Pos)
+	set_element(Rs0, ID, robot(R_ID, R_DV, R_Pos), Rs),
+	P = puzzle(B, Rs, T).
