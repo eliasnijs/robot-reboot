@@ -1,8 +1,11 @@
 :- initialization(main).
 :- use_module(library(clpfd)).
 :- use_module(library(optparse)).
+:- use_module(library(lists)).
+
 :- [utils].
 :- [parser].
+:- [display].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],
@@ -27,5 +30,4 @@ main :-
 play(F) :-
         read_file_to_string(F, S, []),
 	parse(S, Puzzle),
-	writeln(Puzzle).
-
+	display(Puzzle).

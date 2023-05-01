@@ -7,7 +7,7 @@ parse_characters([C|Cs], X, Y, Robots, Target, Tiles) :-
 	( nth0(ID, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ], C) ->
 		Robots = [robot(ID, C, vec2(X, Y))|Robots0], Bc = ' '
 	; Robots = Robots0),
-	( C = '◎' -> Target = target(C, vec2(X, Y)) ; Target = Target0),
+	( C = '◎' -> Target = target(vec2(X, Y)) ; Target = Target0),
 	( nth0(_, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ,◎], C) -> Bc = ' ' ; Bc = C ).
 
 parse(S, puzzle(board(W, H, Tiles), Robots, Target)) :-
