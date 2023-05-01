@@ -5,10 +5,21 @@ play_setup(F, session(Puzzle, 0, [])) :-
 play_loop(S0) :-
 	S0 = session(P0, _, _),
 	display(P0),
+	play_input(S0, S),
+	( S = quit -> true ; play_loop(S)).
+
+play_input(S0, S) :-
 	get_input(C),
-	play_handle_input(S0, C, S),
-	( S = quit -> writeln('quitng')
-	; play_loop(S)).
+	play_handle_input(S0, C, S1),
+	( S1 = quit ->
+		writeln('Are you sure you want to stop playing? :('),
+		writeln('type yes to stop...'),
+		get_input(C1),
+		(C1 = 'yes' ->  S = quit ; S = S0)
+	; S1 = invalid ->
+		writeln('invalid input... try again'),
+		play_input(S0, S)
+	; S = S1).
 
 play_handle_input(session(P, ID0, H), C, session(P, ID, H)) :-
 	P = puzzle(_, Rs, _),
@@ -27,4 +38,5 @@ play_handle_input(session(P0, ID, H), C, session(P, ID, H)) :-
 	set_element(Rs0, ID, robot(RobotID, RobotDV, RobotPos), Rs),
 	P = puzzle(B, Rs, T),
 	!.
-play_handle_input(_, 'q', quit).
+play_handle_input(_, 'q', quit) :- !.
+play_handle_input(_, _, invalid).
