@@ -3,13 +3,13 @@
 :- use_module(library(optparse)).
 :- use_module(library(lists)).
 
-:- [utils].
-:- [ansi].
-:- [parser].
-:- [display].
-:- [input].
-:- [play].
-:- [static_screens].
+:- [utils/utils].
+:- [utils/ansi].
+:- [utils/input].
+:- [display/static_screens].
+:- [display/display].
+:- [other/parser].
+:- [modes/play].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],

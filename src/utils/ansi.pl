@@ -1,5 +1,3 @@
-
-
 ansi(reset, 	'\033[0m').
 ansi(clear, 	'\033[2J').
 
