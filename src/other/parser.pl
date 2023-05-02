@@ -1,9 +1,7 @@
 parse_characters([_], _, _, [], target(0, 0), [[]]).
 parse_characters([C|Cs], X, Y, Robots, Target, Tiles) :-
-	% Next parsing step
 	(C = '\n'-> Xnew = 0, Ynew is Y + 1, Tiles = [[]|[Bl0|Bls]] ; Xnew is X + 1, Ynew = Y, Tiles = [[Bc|Bl0]|Bls]),
 	parse_characters(Cs, Xnew, Ynew, Robots0, Target0, [ Bl0 | Bls ]),
-	% Handle current character
 	( nth0(ID, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ], C) ->
 		Robots = [robot(ID, C, vec2(X, Y))|Robots0], Bc = ' '
 	; Robots = Robots0),

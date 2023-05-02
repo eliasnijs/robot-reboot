@@ -3,6 +3,7 @@
 :- use_module(library(optparse)).
 :- use_module(library(lists)).
 
+:- [config].
 :- [utils/utils].
 :- [utils/ansi].
 :- [utils/input].

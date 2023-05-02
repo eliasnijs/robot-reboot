@@ -1,7 +1,9 @@
 get_input(S) :-
-	write_w_ansi([bold, bg(40, 200, 220), fg(10, 25, 40)], ">>>"),
-	ansi(fg(40, 200, 220), A0),
-	ansi(bg(10, 25, 40), A1),
+	color(good, GFG, GBG),
+	color(good_3, G3FG, G3BG),
+	write_w_ansi([bold, G3FG, G3BG], ">>>"),
+	ansi(GFG, A0),
+	ansi(GBG, A1),
 	ansi(reset, Ar),
 	build_string([A0, A1, ' '], A),
 	write(A),
