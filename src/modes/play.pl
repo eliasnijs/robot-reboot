@@ -1,12 +1,13 @@
-play_setup(F, session(Puzzle, 0, [])) :-
+play_setup(F, session(P, 0, [])) :-
         read_file_to_string(F, S, []),
-	parse(S, Puzzle).
+	parse(S, P).
 
 play_loop(S0) :-
 	S0 = session(P0, ID, _),
 	display(puzzle, P0, ID),
 	play_input(S0, S),
-	S = session(P, _, H),
+	S = session(P1, _, H),
+	check_win(P1, P),
 	( P = quit ->
 		display(quit),
 		format('Your Moves: ~w', [H]),
@@ -45,26 +46,7 @@ play_handle_input(session(P0, ID, H), C, session(P, ID, [Hnew|H])) :-
 	( C = 'h' -> Dir = vec2(-1,  0), build_string([ID, 'L'], Hnew)
 	; C = 'j' -> Dir = vec2( 0,  1), build_string([ID, 'D'], Hnew)
 	; C = 'k' -> Dir = vec2( 0, -1), build_string([ID, 'U'], Hnew)
-	; C = 'l' -> Dir = vec2( 1,  0), build_string([ID, 'R'], Hnew)
-	),
+	; C = 'l' -> Dir = vec2( 1,  0), build_string([ID, 'R'], Hnew)),
 	move(P0, ID, Dir, P).
 play_handle_input(session(_, ID, H), 'q', session(quit, ID, H)).
 play_handle_input(session(_, ID, H), _, session(invalid, ID, H)).
-
-move(P0, ID, Dir, P) :-
-	P0 = puzzle(B, Rs0, T),
-	B = board(_, _, BL),
-	T = target(TP),
-	nth0(ID, Rs0, robot(_, RDV, RP0)),
-	vec2_add(RP0, Dir, RP),
-	( RP = TP ->
-		P = victory
-	; memberchk(robot(_, _, RP), Rs0) ->
-		P = P0
-	; (get_element_2d(BL, RP, E), E = ' ') ->
-		set_element(Rs0, ID, robot(ID, RDV, RP), Rs),
-		P1 = puzzle(B, Rs, T),
-		move(P1, ID, Dir, P)
-	;
-		P = P0
-	).

@@ -1,7 +1,6 @@
 :- initialization(main).
 :- use_module(library(clpfd)).
 :- use_module(library(optparse)).
-:- use_module(library(lists)).
 
 :- [config].
 :- [utils/utils].
@@ -11,6 +10,8 @@
 :- [display/display].
 :- [other/parser].
 :- [modes/play].
+:- [modes/solve].
+:- [rr].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],
@@ -18,16 +19,24 @@ option_spec([
 	[opt(gen), 	longflags([gen]),	default([])],
 	[opt(test), 	longflags([test]),	default([])]
 	]).
-parse_args(Argv, Opts) :-
-	option_spec(OptSpec),
-    	opt_parse(OptSpec, Argv, Opts, _).
 
 main :-
 	current_prolog_flag(argv, Argv),
 	parse_args(Argv, Opts),
-	( memberchk(game([Term|_]), Opts) ->
-		term_to_atom(Term, File),
-		play_setup(File, Session),
-		play_loop(Session)
-	; writeln('invalid options!')).
+	( memberchk(game([T|_]), Opts) ->
+		term_to_atom(T, F),
+		play_setup(F, S),
+		S = session(P, _, _),
+		display(puzzle, P, 0)
+		play_loop(S)
+	; memberchk(solve(_), Opts) ->
+		solve_setup(S),
+		solve_iterative_deepening(S)
+	;
+		writeln('invalid option!')
+	).
+
+parse_args(Argv, Opts) :-
+	option_spec(OptSpec),
+    	opt_parse(OptSpec, Argv, Opts, _).
 

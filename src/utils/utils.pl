@@ -30,10 +30,10 @@ get_element_2d(L, vec2(X, Y), E) :-
 	nth0(Y, L, R),
 	get_element(R, X, E).
 
-set_element(L0, I, E, L) :-
-	length(Prefix, I),
-    	append(Prefix, [_|Suffix], L0),
-    	append(Prefix, [E|Suffix], L).
+set_element([_|Tail], 0, E, [E|Tail]).
+set_element([L0|Ls0], I, E, [L0|Ls1]) :-
+    I #> 0, I0 #= I - 1,
+    set_element(Ls0, I0, E, Ls1).
 
 set_element_2d(L0, vec2(X, Y), E, L) :-
 	nth0(Y, L0, R0),
@@ -49,6 +49,10 @@ add_ansi(A0, S0, S) :-
 	ansi(reset, Ar),
 	build_string([A, S0, Ar], S).
 
+ansi_color(C, S0, S) :-
+	color(C, FG, BG),
+	add_ansi([FG, BG], S0, S).
+
 writeln_w_ansi(A0, S0) :-
 	add_ansi(A0, S0, S),
 	writeln(S).
@@ -56,3 +60,9 @@ writeln_w_ansi(A0, S0) :-
 write_w_ansi(A0, S0) :-
 	add_ansi(A0, S0, S),
 	write(S).
+
+stringify_move(move(ID, D), S) :-
+	( D = vec2(-1,  0) -> build_string([ID, 'L'], S)
+	; D = vec2( 0,  1) -> build_string([ID, 'D'], S)
+	; D = vec2( 0, -1) -> build_string([ID, 'U'], S)
+	; D = vec2( 1,  0) -> build_string([ID, 'R'], S)).

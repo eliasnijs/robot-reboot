@@ -1,16 +1,26 @@
-parse_characters([_], _, _, [], target(0, 0), [[]]).
-parse_characters([C|Cs], X, Y, Robots, Target, Tiles) :-
-	(C = '\n'-> Xnew = 0, Ynew is Y + 1, Tiles = [[]|[Bl0|Bls]] ; Xnew is X + 1, Ynew = Y, Tiles = [[Bc|Bl0]|Bls]),
-	parse_characters(Cs, Xnew, Ynew, Robots0, Target0, [ Bl0 | Bls ]),
-	( nth0(ID, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ], C) ->
-		Robots = [robot(ID, C, vec2(X, Y))|Robots0], Bc = ' '
-	; Robots = Robots0),
-	( C = '◎' -> Target = target(vec2(X, Y)) ; Target = Target0),
-	( nth0(_, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ,◎], C) -> Bc = ' ' ; Bc = C ).
-
-parse(S, puzzle(board(W, H, Tiles), Robots, Target)) :-
+parse(S, puzzle(board(W, H, Ws), Rs, T)) :-
 	string_chars(S, Cs),
-	parse_characters(Cs, 0, 0, Robots0, Target, Tiles),
-	length(Tiles, H),
-	(Tiles = [] -> W = 0 ; Tiles = [R0|_], length(R0, W) ),
-	sort(1, @=<, Robots0, Robots).
+	parse(Cs, 0, 0, Ws, Rs0, T, W, H),
+	sort(1, @=<, Rs0, Rs).
+
+parse([], _, _, [], [], _, 0, 0).
+parse(['\n'|Cs], _, Y, Ws, Rs, T, 0, H) :-
+	Y #= Y0 - 1, H #= H0 + 1,
+	parse(Cs, 0, Y0, Ws, Rs, T, _, H0).
+parse([C|Cs], X, Y, Ws, Rs, target(C, vec2(X, Y)), W, H) :-
+	tile(target, C),
+	W #= W0 + 1, X #= X0 - 1,
+	parse(Cs, X0, Y, Ws, Rs, _, W0, H).
+parse([C|Cs], X, Y, Ws, [robot(ID, C, vec2(X, Y))|Rs], T, W, H) :-
+	tileset(robots, Tiles),
+	nth0(ID, Tiles, C),
+	W #= W0 + 1, X #= X0 - 1,
+	parse(Cs, X0, Y, Ws, Rs, T, W0, H).
+parse([C|Cs], X, Y, [wall(C, vec2(X, Y))|Ws], Rs, T, W, H) :-
+	tileset(walls, Tiles),
+	member(C, Tiles),
+	W #= W0 + 1, X #= X0 - 1,
+	parse(Cs, X0, Y, Ws, Rs, T, W0, H).
+parse([' '|Cs], X, Y, Ws, Rs, T, W, H) :-
+	W #= W0 + 1, X #= X0 - 1,
+	parse(Cs, X0, Y, Ws, Rs, T, W0, H).
