@@ -26,8 +26,6 @@ main :-
 	( memberchk(game([T|_]), Opts) ->
 		term_to_atom(T, F),
 		play_setup(F, S),
-		S = session(P, _, _),
-		display(puzzle, P, 0)
 		play_loop(S)
 	; memberchk(solve(_), Opts) ->
 		solve_setup(S),

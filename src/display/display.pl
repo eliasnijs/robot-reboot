@@ -7,12 +7,12 @@ display(puzzle, P, ID) :-
 	display(0, 0, P, ID, Cs),
 	build_string(Cs, S),
 	writeln(S).
-display(victory, _, _) :-
+display(victory) :-
 	color(good, FG, BG),
 	static_screen(victory, S),
 	write_w_ansi([clear, pos(0,0), bold, FG, BG], S),
 	write_w_ansi([cursor_hidden], '').
-display(quit, _, _) :-
+display(quit) :-
 	color(bad, FG, BG),
 	static_screen(loss, S),
 	write_w_ansi([clear, pos(0,0), bold, FG, BG], S),
