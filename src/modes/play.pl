@@ -4,7 +4,7 @@ play_setup(F, session(P, 0, [])) :-
 
 play_loop(S0) :-
 	S0 = session(P0, ID, _),
-	display(puzzle, P0, ID),
+	display(game, P0, ID),
 	play_input(S0, S),
 	S = session(P1, _, H),
 	check_win(P1, P),
@@ -34,7 +34,7 @@ play_input(S0, S) :-
 		writeln_w_ansi([FG, BG, bold], 'invalid input... try again'),
 		play_input(S0, S)
 	; P1 = help ->
-		display_help,
+		display(help),
 		play_input(S0, S)
 	;
 		S = S1

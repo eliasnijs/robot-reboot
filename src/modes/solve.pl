@@ -1,8 +1,3 @@
-read_file_from_stdin(S) :-
-	read_line_to_string(user_input, S0),
-	( S0 = end_of_file -> S = ' '
-	; read_file_from_stdin(Ss), build_string([S0,'\n',Ss], S) ).
-
 solve_setup(P) :-
 	read_file_from_stdin(S),
 	parse(S, P).
