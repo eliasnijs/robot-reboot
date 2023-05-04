@@ -1,3 +1,23 @@
+static_screen(help,
+"
+                                               
+  Robot Reboot ~ Interactive                   
+                                               
+  Try to get robot `▣ ` on the target `◎`!     
+                                               
+  Keybinds:                                    
+  F     select next robot                      
+  D     select previous robot                  
+                                               
+  H     move left                              
+  J     move down                              
+  K     move up                                
+  L     move right                             
+                                               
+  Q     quit                                   
+                                               
+").
+
 static_screen(victory,
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ━━━━━━━━━━━━━━━━━━━ Robot  Reboot ━━━━━━━━━━━━━━━━━━━━

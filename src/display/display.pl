@@ -10,6 +10,7 @@ display(quit) :-
 	write_w_ansi([cursor_hidden], '').
 
 display(puzzle, P, ID) :-
+	writeln_w_ansi([clear], ''),
 	write_w_ansi([cursor_hidden], ''),
 	color(good, GFG, GBG), color(bad, BFG, BBG),
 	write_w_ansi([pos(0,0)], ''),
@@ -64,3 +65,8 @@ display(X, Y, P, ID, [Dv|Cs]) :-
 display(X, Y, P, ID, ['  '|Cs]) :-
 	Xn #= X + 1,
 	display(Xn, Y, P, ID, Cs).
+
+display_help :-
+	color(good_2, FG, BG),
+	static_screen(help, S),
+	writeln_w_ansi([FG, BG], S).
