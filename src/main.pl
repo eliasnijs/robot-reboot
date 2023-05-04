@@ -6,13 +6,12 @@
 :- [config].
 :- [utils/utils].
 :- [utils/ansi].
-:- [utils/input].
-:- [display/static_screens].
 :- [display/display].
+:- [display/static_screens].
 :- [other/parser].
 :- [modes/play].
 :- [modes/solve].
-:- [rr].
+:- [robotreboot].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([])],
