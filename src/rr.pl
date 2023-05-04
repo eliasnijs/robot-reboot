@@ -12,9 +12,16 @@ move(P0, ID, Dir, puzzle(B, Rs, T)) :-
 	next_pos(Rp0, Dir, Ws, Rs0, Rp),
 	set_element(Rs0, ID, robot(ID, RDv, Rp), Rs).
 
-next_pos(P0, Dir, Ws, Rs, P0) :-
-	vec2_add(P0, Dir, P),
-	( member(wall(_,P), Ws) ; member(robot(_, _, P), Rs) ), !.
-next_pos(P0, Dir, Ws, Rs, P) :-
-	vec2_add(P0, Dir, P1),
-	next_pos(P1, Dir, Ws, Rs, P).
+next_pos(Rp0, Dir, _, Rs, Rp0) :-
+	vec2_mult(2, Dir, Dir2),
+	vec2_add(Rp0, Dir2, Rp),
+	member(robot(_, _, Rp), Rs),
+	!.
+next_pos(Rp0, Dir, Ws, _, Rp0) :-
+	vec2_add(Rp0, Dir, Rp),
+	member(wall(_, Rp), Ws),
+	!.
+next_pos(Rp0, Dir, Ws, Rs, Rp) :-
+	vec2_mult(2, Dir, Dir2),
+	vec2_add(Rp0, Dir2, Rp1),
+	next_pos(Rp1, Dir, Ws, Rs, Rp).

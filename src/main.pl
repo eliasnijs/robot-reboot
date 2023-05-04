@@ -1,5 +1,6 @@
 :- initialization(main).
 :- use_module(library(clpfd)).
+:- use_module(library(tabling)).
 :- use_module(library(optparse)).
 
 :- [config].

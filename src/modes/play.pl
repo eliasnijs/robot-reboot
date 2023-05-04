@@ -1,5 +1,6 @@
 play_setup(F, session(P, 0, [])) :-
         read_file_to_string(F, S, []),
+	writeln_w_ansi([clear], ''),
 	parse(S, P).
 
 play_loop(S0) :-

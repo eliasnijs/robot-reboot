@@ -1,22 +1,24 @@
-display(puzzle, P, ID) :-
-	color(good, GFG, GBG), color(bad, BFG, BBG),
-	% write_w_ansi([clear, pos(0,0)], ''),
-	write_w_ansi([GFG, GBG, bold], '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n━━━━━━━━━ Robot '),
-	writeln_w_ansi([BFG, BBG, bold], ' Reboot ━━━━━━━━━\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'),
-	% write_w_ansi([pos(5,0)], ''),
-	display(0, 0, P, ID, Cs),
-	build_string(Cs, S),
-	writeln(S).
 display(victory) :-
 	color(good, FG, BG),
 	static_screen(victory, S),
-	write_w_ansi([clear, pos(0,0), bold, FG, BG], S),
+	write_w_ansi([clear, pos(0,0), bold, italic, FG, BG], S),
 	write_w_ansi([cursor_hidden], '').
 display(quit) :-
 	color(bad, FG, BG),
 	static_screen(loss, S),
-	write_w_ansi([clear, pos(0,0), bold, FG, BG], S),
+	write_w_ansi([clear, pos(0,0), bold, italic, FG, BG], S),
 	write_w_ansi([cursor_hidden], '').
+
+display(puzzle, P, ID) :-
+	write_w_ansi([cursor_hidden], ''),
+	color(good, GFG, GBG), color(bad, BFG, BBG),
+	write_w_ansi([pos(0,0)], ''),
+	write_w_ansi([GFG, GBG, bold], '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n━━━━━━━━━ Robot '),
+	writeln_w_ansi([BFG, BBG, bold], ' Reboot ━━━━━━━━━\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'),
+	writeln(''),
+	display(0, 0, P, ID, Cs),
+	build_string(Cs, S),
+	writeln(S).
 
 display(0, H, puzzle(board(_, H, _), _, _), _, []).
 display(W, Y, P, ID, ['\n'|Cs]) :-
