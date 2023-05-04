@@ -28,8 +28,9 @@ main :-
 		play_setup(F, S),
 		play_loop(S)
 	; memberchk(solve(_), Opts) ->
-		solve_setup(S),
-		solve_iterative_deepening(S)
+		solve_setup(P),
+		writeln(''),
+		solve_iterative_deepening(P, 0)
 	;
 		writeln('invalid option!')
 	).

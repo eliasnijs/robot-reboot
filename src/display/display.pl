@@ -47,7 +47,7 @@ display(X, Y, P, ID, [Dv|Cs]) :-
 display(X, Y, P, ID, [Dv|Cs]) :-
 	P = puzzle(board(_, _, Ws), _, _),
 	member(wall(Dv0, vec2(X, Y)), Ws),
-	member(Dv0, ['━', '┏', '┳', '┗', '┻']),
+	member(Dv0, ['━', '┏', '┳', '┗', '┻', '┣']),
 	build_string([Dv0, '━'], Dv1),
 	ansi_color(good, Dv1, Dv),
 	Xn #= X + 1,

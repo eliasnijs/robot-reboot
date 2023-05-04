@@ -14,7 +14,7 @@ move(P0, ID, Dir, puzzle(B, Rs, T)) :-
 
 next_pos(P0, Dir, Ws, Rs, P0) :-
 	vec2_add(P0, Dir, P),
-	( member(wall(_,P), Ws) ; member(robot(_, _, P), Rs) ).
+	( member(wall(_,P), Ws) ; member(robot(_, _, P), Rs) ), !.
 next_pos(P0, Dir, Ws, Rs, P) :-
 	vec2_add(P0, Dir, P1),
 	next_pos(P1, Dir, Ws, Rs, P).
