@@ -19,14 +19,4 @@ read_file_from_stdin(S) :-
 	( S0 = end_of_file -> S = ' '
 	; read_file_from_stdin(Ss), build_string([S0,'\n',Ss], S) ).
 
-at_border(W, H, vec2(X, Y)) :-
-	( X = 0 ; Y = 0 ; X #= W - 1 ; Y #= H - 1),
-	between(0, W, X),
-	between(0, H, Y).
 
-neighbours(wall(_, P), Ws, N) :-
-	vec2_add(P, vec2( 0, -1), PT),
-	vec2_add(P, vec2( 1,  0), PR),
-	vec2_add(P, vec2( 0,  1), PB),
-	vec2_add(P, vec2(-1,  0), PL),
-	maplist({Ws}/[W,R]>>(member(W, Ws) -> R = true ; R = false), [wall(_, PT), wall(_, PR), wall(_, PB), wall(_, PL)], N).
