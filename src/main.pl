@@ -1,8 +1,8 @@
-:- initialization(main).
 :- use_module(library(clpfd)).
 :- use_module(library(tabling)).
 :- use_module(library(optparse)).
 :- use_module(library(yall)).
+:- use_module(library(random)).
 
 :- [config].
 :- [utils/utils].
@@ -43,3 +43,4 @@ main :-
 	).
 
 
+:- initialization(main).

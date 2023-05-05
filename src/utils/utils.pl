@@ -19,4 +19,26 @@ read_file_from_stdin(S) :-
 	( S0 = end_of_file -> S = ' '
 	; read_file_from_stdin(Ss), build_string([S0,'\n',Ss], S) ).
 
+range(L, U0, R) :-
+	U #= U0 - 1,
+	between(L, U, R).
 
+even(X) :- 0 #= X mod 2.
+uneven(X) :- 1 #= X mod 2.
+
+random_even(L0, U0, X) :-
+	L #= L0 div 2, U #= U0 div 2,
+	random(L, U, X0),
+	X #= X0 * 2.
+random_uneven(L0, U0, X) :-
+	L #= L0 div 2, U #= U0 div 2,
+	random(L, U, X0),
+	X #= X0 * 2 + 1.
+
+rectangle_vec2s(vec2(WL, WH), vec2(HL, HH), L) :-
+    	findall(vec2(X, Y), (range(WL, WH, X), range(HL, HH, Y)), L).
+
+zip([], _, []).
+zip(_, [], []).
+zip([H1|T1], [H2|T2], [(H1, H2)|T]) :-
+    zip(T1, T2, T).
