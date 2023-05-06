@@ -1,72 +1,61 @@
+% 0 0 1 1 2 2 3 3 4
+% W R W R W R W R W
+% ┏ ━ ━ ━ ━ ━ ━ ━ ┓
+
+generate(S) :-
+	generate_max_depth(MD),
+	generate_puzzle(S, P),
+	display(puzzle,P),
+	( solve_iterative_deepening(P, 0, MD) -> writeln('end success')
+	; writeln('end failure')).
+
 generate_puzzle(specification(RC, SW, SH), P) :-
-	W #= SW * 2 - 1, H #= SH * 2 - 1,
+	regime_S_to_L(entity, vec2(SW, SH), vec2(W, H)),
 
-	generate_board(W, H, B0),
+	generate_obstacles(W, H, Os),
+	generate_border(W, H, Bs),
+	append(Bs, Os, Ws),
 
+	generate_entities(SW, SH, RC, entities(Rs, T)),
 
-	% Generate entities
-	rectangle_vec2s(vec2(1, SW), vec2(1, SH), ERP0),
-	random_permutation(ERP0, ERP),
-
-	generate_robots(RC, ERP, Rs),
-	nth0(RC, ERP, TPos),
-	generate_target(T, TPos),
-
-
-	generate_wall_dvs(B0, B),
+	generate_wall_dvs(board(W, H, Ws), B),
 	P = puzzle(B, Rs, T).
 
-% Board
 
-generate_board(W, H, board(W, H, Ws)) :-
+generate_border(W, H, Ws) :-
 	findall(wall(_, P), at_border(W, H, P), Ws).
 
-% Robots
+generate_entities(SW, SH, RC, entities(Rs, T)) :-
+    	findall(vec2(X, Y), (range(0, SW, X), range(0, SH, Y)), ERP0),
+	random_permutation(ERP0, ERP),
 
-generate_robots(RC, ERP, Rs) :-
 	N #= RC - 1,
 	numlist(0, N, I),
 	zip(I, ERP, ISL),
-	maplist(generate_robot, ISL, Rs).
+	maplist(generate_robot, ISL, Rs),
 
-generate_robot((ID, Pos), robot(ID, Dv, Pos)) :-
+	nth0(RC, ERP, TP0),
+	regime_S_to_L(entity, TP0, TP),
+	tile(target, TDv),
+	T = target(TDv, TP).
+
+generate_robot((ID, P0), robot(ID, Dv, P)) :-
+	regime_S_to_L(entity, P0, P),
 	tileset(robots, Tiles),
 	nth0(ID, Tiles, Dv).
 
-
-% Target
-
-generate_target(T, TPos) :-
-	tile(target, TDv),
-	T = target(TDv, TPos).
-
-
-
-
-
-
-% Walls
+generate_obstacles(W, H, Os) :-
+	H0 #= H - 1, W0 #= W - 1,
+	setof(vec2(X, Y), (range(1, W0, X), range(1, H0, Y), (X /\ 1 #= 0 ; Y /\ 1 #= 0)), WRP0),
+	random_permutation(WRP0, WRP),
+	MWC #= W*H//8,
+	random_between(1, MWC, WC),
+	first_n(WC, WRP, Os0),
+	maplist([I,W]>>(W=wall(_,I)), Os0, Os).
 
 generate_wall_dvs(board(W, H, Ws0), board(W, H, Ws)) :-
 	maplist({Ws0}/[W,R]>>check_neighbouring_walls(W, Ws0, R), Ws0, Ws1),
 	maplist(generte_wall_dv, Ws1, Ws).
-
-generte_wall_dv(wall([0,0,0,0], P), wall('━', P)).
-generte_wall_dv(wall([0,0,0,1], P), wall('━', P)).
-generte_wall_dv(wall([0,0,1,0], P), wall('┃', P)).
-generte_wall_dv(wall([0,0,1,1], P), wall('┓', P)).
-generte_wall_dv(wall([0,1,0,0], P), wall('━', P)).
-generte_wall_dv(wall([0,1,0,1], P), wall('━', P)).
-generte_wall_dv(wall([0,1,1,0], P), wall('┏', P)).
-generte_wall_dv(wall([0,1,1,1], P), wall('┳', P)).
-generte_wall_dv(wall([1,0,0,0], P), wall('┃', P)).
-generte_wall_dv(wall([1,0,0,1], P), wall('┛', P)).
-generte_wall_dv(wall([1,0,1,0], P), wall('┃', P)).
-generte_wall_dv(wall([1,0,1,1], P), wall('┫', P)).
-generte_wall_dv(wall([1,1,0,0], P), wall('┗', P)).
-generte_wall_dv(wall([1,1,0,1], P), wall('┻', P)).
-generte_wall_dv(wall([1,1,1,0], P), wall('┣', P)).
-generte_wall_dv(wall([1,1,1,1], P), wall('╋', P)).
 
 at_border(W, H, vec2(X, Y)) :-
 	H0 #= H - 1, W0 #= W - 1,
@@ -84,3 +73,19 @@ check_neighbouring_walls(wall(_, P), Ws, wall(T, P)) :-
 check_neighbour_wall(P, Ws, 1) :- member(wall(_, P), Ws).
 check_neighbour_wall(_, _, 0).
 
+generte_wall_dv(wall([0,0,0,0], P), wall('━', P)).
+generte_wall_dv(wall([0,0,0,1], P), wall('━', P)).
+generte_wall_dv(wall([0,0,1,0], P), wall('┃', P)).
+generte_wall_dv(wall([0,0,1,1], P), wall('┓', P)).
+generte_wall_dv(wall([0,1,0,0], P), wall('━', P)).
+generte_wall_dv(wall([0,1,0,1], P), wall('━', P)).
+generte_wall_dv(wall([0,1,1,0], P), wall('┏', P)).
+generte_wall_dv(wall([0,1,1,1], P), wall('┳', P)).
+generte_wall_dv(wall([1,0,0,0], P), wall('┃', P)).
+generte_wall_dv(wall([1,0,0,1], P), wall('┛', P)).
+generte_wall_dv(wall([1,0,1,0], P), wall('┃', P)).
+generte_wall_dv(wall([1,0,1,1], P), wall('┫', P)).
+generte_wall_dv(wall([1,1,0,0], P), wall('┗', P)).
+generte_wall_dv(wall([1,1,0,1], P), wall('┻', P)).
+generte_wall_dv(wall([1,1,1,0], P), wall('┣', P)).
+generte_wall_dv(wall([1,1,1,1], P), wall('╋', P)).

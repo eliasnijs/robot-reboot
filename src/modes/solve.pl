@@ -2,15 +2,16 @@ solve_setup(P) :-
 	read_file_from_stdin(S),
 	parse(S, P).
 
-solve_iterative_deepening(P, D0) :-
-	D0 #>= 0,
+solve_iterative_deepening(P, D0, MD) :-
+	D0 #>= 0, D0 #< MD,
+	solve_do(P, D0, H),
+	solve_log(end, H).
+solve_iterative_deepening(P, D0, MD) :-
+	D0 #>= 0, D0 #< MD,
 	solve_log(running, D0),
 	\+ solve_do(P, D0, _),
 	D1 #= D0 + 1,
-	solve_iterative_deepening(P, D1).
-solve_iterative_deepening(P, D0) :-
-	solve_do(P, D0, H),
-	solve_log(end, H).
+	solve_iterative_deepening(P, D1, MD).
 
 :-table solve_do/3.
 solve_do(victory, _, []) :-
@@ -29,6 +30,7 @@ solve_do(P0, D0, [move(ID, Dir)|H0]) :-
  	solve_do(P, D, H0).
 
 solve_log(running, D) :-
+	writeln('logging end'),
 	color(bad, FG, BG),
 	write_w_ansi([cursor_start_prev], ''),
 	format_w_ansi([FG, BG], 'iterative depth ~d', D),

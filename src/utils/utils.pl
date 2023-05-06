@@ -35,10 +35,12 @@ random_uneven(L0, U0, X) :-
 	random(L, U, X0),
 	X #= X0 * 2 + 1.
 
-rectangle_vec2s(vec2(WL, WH), vec2(HL, HH), L) :-
-    	findall(vec2(X, Y), (range(WL, WH, X), range(HL, HH, Y)), L).
-
 zip([], _, []).
 zip(_, [], []).
 zip([H1|T1], [H2|T2], [(H1, H2)|T]) :-
     zip(T1, T2, T).
+
+first_n(N, L, R) :-
+    length(R, N),
+    append(R, _, L).
+

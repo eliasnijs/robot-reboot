@@ -31,9 +31,7 @@ main :-
 		writeln(''),
 		solve_iterative_deepening(P, 0)
 	; member(gen([RC, W, H]), Opts) ->
-		generate_puzzle(specification(RC, W, H), P),
-		writeln(P),
-		display(puzzle, P)
+		generate(specification(RC, W, H))
 	; member(game([T|_]), Opts) ->
 		term_to_atom(T, F),
 		play_setup(F, S),

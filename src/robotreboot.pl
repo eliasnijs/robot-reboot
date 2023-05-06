@@ -25,3 +25,10 @@ next_pos(Rp0, Dir, Ws, Rs, Rp) :-
 	vec2_mult(2, Dir, Dir2),
 	vec2_add(Rp0, Dir2, Rp1),
 	next_pos(Rp1, Dir, Ws, Rs, Rp).
+
+regime_S_to_L(wall, P0, P) :-
+	vec2_mult(2, P0, P).
+regime_S_to_L(entity, P0, P) :-
+	vec2_mult(2, P0, P1),
+	vec2_add(P1, vec2(1,1), P).
+
