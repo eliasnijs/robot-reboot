@@ -30,7 +30,6 @@ solve_do(P0, D0, [move(ID, Dir)|H0]) :-
  	solve_do(P, D, H0).
 
 solve_log(running, D) :-
-	writeln('logging end'),
 	color(bad, FG, BG),
 	write_w_ansi([cursor_start_prev], ''),
 	format_w_ansi([FG, BG], 'iterative depth ~d', D),

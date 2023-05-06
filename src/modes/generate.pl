@@ -5,19 +5,15 @@
 generate(S) :-
 	generate_max_depth(MD),
 	generate_puzzle(S, P),
-	display(puzzle,P),
-	( solve_iterative_deepening(P, 0, MD) -> writeln('end success')
-	; writeln('end failure')).
+	( solve_iterative_deepening(P, 0, MD) -> display(puzzle,P)
+	; generate(S)).
 
 generate_puzzle(specification(RC, SW, SH), P) :-
 	regime_S_to_L(entity, vec2(SW, SH), vec2(W, H)),
-
 	generate_obstacles(W, H, Os),
 	generate_border(W, H, Bs),
 	append(Bs, Os, Ws),
-
 	generate_entities(SW, SH, RC, entities(Rs, T)),
-
 	generate_wall_dvs(board(W, H, Ws), B),
 	P = puzzle(B, Rs, T).
 
