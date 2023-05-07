@@ -48,3 +48,7 @@ string_dir(vec2(-1,  0), 'L').
 string_dir(vec2( 0,  1), 'D').
 string_dir(vec2( 0, -1), 'U').
 string_dir(vec2( 1,  0), 'R').
+string_dir(vec2(-1,  0), 'l').
+string_dir(vec2( 0,  1), 'd').
+string_dir(vec2( 0, -1), 'u').
+string_dir(vec2( 1,  0), 'r').
