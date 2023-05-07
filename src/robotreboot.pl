@@ -1,10 +1,15 @@
+% unifies typ with symbolic representation
 tile(target, '◎').
+
+% unifies type with all possible symbolic representations
 tileset(walls, ['━', '┃', '┏', '┓', '┗', '┛', '┣', '┫', '┳', '┻']).
 tileset(robots, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ]).
 
+% checks if target is reached and returns victory if so or else the puzzle
 check_win(puzzle(_, [robot(_,_,P)|_], target(_, P)), victory).
 check_win(P, P).
 
+% move robot in direction, returns the puzzle after move
 move(P0, ID, Dir, puzzle(B, Rs, T)) :-
 	P0 = puzzle(B, Rs0, T),
 	B = board(_, _, Ws),
@@ -12,6 +17,7 @@ move(P0, ID, Dir, puzzle(B, Rs, T)) :-
 	next_pos(Rp0, Dir, Ws, Rs0, Rp),
 	set_element(Rs0, ID, robot(ID, RDv, Rp), Rs).
 
+% returns robot on the next posible position in a given direction
 next_pos(Rp0, Dir, _, Rs, Rp0) :-
 	vec2_mult(2, Dir, Dir2),
 	vec2_add(Rp0, Dir2, Rp),
@@ -25,10 +31,3 @@ next_pos(Rp0, Dir, Ws, Rs, Rp) :-
 	vec2_mult(2, Dir, Dir2),
 	vec2_add(Rp0, Dir2, Rp1),
 	next_pos(Rp1, Dir, Ws, Rs, Rp).
-
-regime_S_to_L(wall, P0, P) :-
-	vec2_mult(2, P0, P).
-regime_S_to_L(entity, P0, P) :-
-	vec2_mult(2, P0, P1),
-	vec2_add(P1, vec2(1,1), P).
-

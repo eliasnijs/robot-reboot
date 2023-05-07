@@ -1,7 +1,9 @@
+% setup interative play environement
 play_setup(F, session(P, 0, [])) :-
         read_file_to_string(F, S, []),
 	parse(S, P).
 
+% defines the game loop
 play_loop(S0) :-
 	S0 = session(P0, ID, _),
 	display(game, P0, ID),
@@ -20,6 +22,7 @@ play_loop(S0) :-
 		write_w_ansi([cursor_visible],'')
 	; play_loop(S)).
 
+%  wrapper for handling input
 play_input(S0, S) :-
 	play_get_input(C),
 	play_handle_input(S0, C, S1),
@@ -40,6 +43,7 @@ play_input(S0, S) :-
 		S = S1
 	).
 
+% handles logic for a given input
 play_handle_input(session(P, ID0, H), C, session(P, ID, H)) :-
 	P = puzzle(_, Rs, _),
 	length(Rs, N),
@@ -55,6 +59,7 @@ play_handle_input(session(_, ID, H), 'q', session(quit, ID, H)).
 play_handle_input(session(_, ID, H), ';', session(help, ID, H)).
 play_handle_input(session(_, ID, H), _, session(invalid, ID, H)).
 
+% ask the player for input
 play_get_input(S) :-
 	color(good, GFG, GBG),
 	color(good_3, G3FG, G3BG),

@@ -1,7 +1,9 @@
+% setup solve
 solve_setup(P) :-
 	read_file_from_stdin(S),
 	parse(S, P).
 
+% do iterative deepening
 solve_iterative_deepening(P, D0, MD) :-
 	D0 #>= 0, D0 #< MD,
 	solve_do(P, D0, H),
@@ -13,6 +15,7 @@ solve_iterative_deepening(P, D0, MD) :-
 	D1 #= D0 + 1,
 	solve_iterative_deepening(P, D1, MD).
 
+% use dfs to explore possible solutions until a given depth
 :-table solve_do/3.
 solve_do(victory, _, []) :-
 	!.
@@ -29,6 +32,7 @@ solve_do(P0, D0, [move(ID, Dir)|H0]) :-
 	D #= D0 - 1,
  	solve_do(P, D, H0).
 
+% log step in iterative deepening
 solve_log(running, D) :-
 	color(bad, FG, BG),
 	write_w_ansi([cursor_start_prev], ''),
@@ -39,6 +43,7 @@ solve_log(end, H) :-
 	atomic_list_concat(S0, ',', S),
 	writeln_w_ansi([cursor_start_prev, erase_line], S).
 
+% maps move to string
 solve_log_stringify_move(move(ID, D), S) :-
 	string_dir(D, S),
 	build_string([ID, S], S).

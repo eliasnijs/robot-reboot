@@ -1,8 +1,8 @@
+% display a given type
 display(help) :-
 	color(good_2, FG, BG),
 	static_screen(help, S),
 	writeln_w_ansi([FG, BG], S).
-
 display(victory) :-
 	color(good, FG, BG),
 	static_screen(victory, S),

@@ -29,8 +29,7 @@ option_spec([
 	[opt(test), 	longflags([test]),	default([]),	type(term)	]
 	]).
 
-main :-
-	current_prolog_flag(argv, Argv),
+main(Argv) :-
 	option_spec(OptSpec),
     	opt_parse(OptSpec, Argv, Opts, _),
 	(member(solve(true), Opts) ->
@@ -53,4 +52,4 @@ main :-
 	).
 
 
-:- initialization(main).
+:- initialization(( current_prolog_flag(argv, Argv), main(Argv) )).

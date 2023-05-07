@@ -1,8 +1,8 @@
+% maps puzzle string to puzzle object
 parse(S, puzzle(board(W, H, Ws), Rs, T)) :-
 	string_chars(S, Cs),
 	parse(Cs, 0, 0, Ws, Rs0, T, W, H),
 	sort(1, @=<, Rs0, Rs).
-
 parse([], _, _, [], [], _, 0, 0).
 parse(['\n'|Cs], _, Y, Ws, Rs, T, 0, H) :-
 	Y #= Y0 - 1, H #= H0 + 1,
