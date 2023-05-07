@@ -45,5 +45,5 @@ solve_log(end, H) :-
 
 % maps move to string
 solve_log_stringify_move(move(ID, D), S) :-
-	string_dir(D, S),
-	build_string([ID, S], S).
+	string_dir(D, S0),
+	build_string([ID, S0], S).

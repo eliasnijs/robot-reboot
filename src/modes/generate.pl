@@ -48,7 +48,7 @@ generate_obstacles(W, H, Os) :-
 	H0 #= H - 1, W0 #= W - 1,
 	setof(vec2(X, Y), (range(1, W0, X), range(1, H0, Y), (X /\ 1 #= 0 ; Y /\ 1 #= 0)), WRP0),
 	random_permutation(WRP0, WRP),
-	MWC #= W*H,
+	length(WRP, MWC),
 	random_between(1, MWC, WC),
 	first_n(WC, WRP, Os0),
 	maplist([I,W]>>(W=wall(_,I)), Os0, Os).

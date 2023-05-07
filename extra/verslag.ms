@@ -149,9 +149,7 @@ opgeslaan.
 
 Tot slot hebben we de win en verlies schermen. Deze werden toegevoed om de
 speler een betere ervaring te geven en zien er als volgt uit:
-.mk
 .PSPIC -C "images/win.eps" 1.5i
-.r
 .PSPIC -C "images/lose.eps" 1.5i
 
 .NH 2
@@ -175,6 +173,26 @@ deel. Deze wordt opgeroepen bij elke nieuwe diepte om de gebruiker op de hoogte
 te houden van hoe ver het algoritme zit. Daarnaast wordt deze ook opgeroepen op
 het einde om de optimale oplossingen naar de terminal uit te schrijven.
 
+We kunnen bijvoorbeeld het volgende commando uitvoeren:
+.BD
+.CW
+.ps -1
+cat 'lv3.txt' |
+swipl main.pl -- --solve
+.ps +1
+.Di
+.LP
+waarbij lv3 er als volgt uitziet:
+.PSPIC -C "images/lv3.eps" 1i
+We bekomen hiervoor de volgende oplossingen:
+.BD
+.CW
+.ps -1
+1L,1U,0U,1L,1D,1R,1U,
+1L,1D,0D,0R,0U,0L,0D
+.ps +1
+.Di
+.LP
 .NH 2
 De genereer modus
 .LP
@@ -192,6 +210,19 @@ Het oplos deel bestaat erin de oplos modus, die hiervoor besproken werd, op te
 roepen op de nieuw gegenereerde puzzel. Indien deze een oplossing vindt binnen
 een bepaalde maximum diepte wordt de lus stop gezet en wordt de puzzel samen met
 het een optimale oplossing voor de puzzel naar de standaard uitvoer geschreven.
+
+We kunnen bijvoorbeeld het volgende command uitvoeren:
+.BD
+.CW
+.ps -1
+swipl main.pl -- --gen=[2,8,8]
+.ps +1
+.Di
+.LP
+
+Dit geeft ons bijvoorbeeld het volgende resultaat:
+.PSPIC -C "images/gen.eps" 1.5i
+
 
 .NH
 Conclusie

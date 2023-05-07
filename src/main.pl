@@ -35,7 +35,7 @@ main(Argv) :-
 	(member(solve(true), Opts) ->
 		solve_setup(P),
 		writeln(''),
-		solve_iterative_deepening(P, 0)
+		solve_iterative_deepening(P, 0, 10000)
 	; member(gen([RC, W, H]), Opts) ->
 		writeln(''),
 		generate(specification(RC, W, H))
@@ -51,5 +51,4 @@ main(Argv) :-
 		writeln('invalid option!')
 	).
 
-
-:- initialization(( current_prolog_flag(argv, Argv), main(Argv) )).
+:- initialization(( current_prolog_flag(argv, Argv), main(Argv), halt )).
