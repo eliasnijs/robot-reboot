@@ -1,4 +1,4 @@
-% unifies typ with symbolic representation
+% unifies type with symbolic representation
 tile(target, '◎').
 
 % unifies type with all possible symbolic representations

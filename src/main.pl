@@ -21,12 +21,14 @@
 :- [modes/solve].
 :- [modes/test].
 
+:- ['../tests/tests.pl'].
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([]),	type(term)	],
 	[opt(solve),	longflags([solve]),	default(false),	type(boolean)	],
 	[opt(gen), 	longflags([gen]),	default([]),	type(term)	],
-	[opt(test), 	longflags([test]),	default([]),	type(term)	]
+	[opt(test), 	longflags([test]),	default([]),	type(term)	],
+	[opt(plu), 	longflags([plu]),	default(false),	type(boolean)	]
 	]).
 
 main(Argv) :-
@@ -46,7 +48,9 @@ main(Argv) :-
 	;  member(test([ID, D]), Opts) ->
 		test_setup(specification(ID, D), M, P),
 		writeln(''), write_w_ansi([cursor_start_prev], ''),
-		test_run(P, M)
+		test_run(P, M, _)
+	; member(plu(true), Opts) ->
+		run_tests
 	;
 		writeln('invalid option!')
 	).
