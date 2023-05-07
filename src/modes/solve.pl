@@ -40,7 +40,5 @@ solve_log(end, H) :-
 	writeln_w_ansi([cursor_start_prev, erase_line], S).
 
 solve_log_stringify_move(move(ID, D), S) :-
-	( D = vec2(-1,  0) -> build_string([ID, 'L'], S)
-	; D = vec2( 0,  1) -> build_string([ID, 'D'], S)
-	; D = vec2( 0, -1) -> build_string([ID, 'U'], S)
-	; D = vec2( 1,  0) -> build_string([ID, 'R'], S)).
+	string_dir(D, S),
+	build_string([ID, S], S).

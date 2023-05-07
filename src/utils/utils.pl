@@ -44,3 +44,7 @@ first_n(N, L, R) :-
     length(R, N),
     append(R, _, L).
 
+string_dir(vec2(-1,  0), 'L').
+string_dir(vec2( 0,  1), 'D').
+string_dir(vec2( 0, -1), 'U').
+string_dir(vec2( 1,  0), 'R').

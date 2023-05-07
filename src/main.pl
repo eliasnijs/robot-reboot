@@ -5,15 +5,22 @@
 :- use_module(library(random)).
 
 :- [config].
+
 :- [utils/utils].
 :- [utils/ansi].
+
+:- [robotreboot].
+
 :- [display/display].
 :- [display/static_screens].
+
 :- [other/parser].
+
 :- [modes/play].
 :- [modes/generate].
 :- [modes/solve].
-:- [robotreboot].
+:- [modes/test].
+
 
 option_spec([
 	[opt(game), 	longflags([game]),	default([]),	type(term)	],
@@ -37,6 +44,10 @@ main :-
 		term_to_atom(T, F),
 		play_setup(F, S),
 		play_loop(S)
+	;  member(test([ID, D]), Opts) ->
+		test_setup(specification(ID, D), M, P),
+		write_w_ansi([erase_line], ''),
+		test_run(P, M)
 	;
 		writeln('invalid option!')
 	).
