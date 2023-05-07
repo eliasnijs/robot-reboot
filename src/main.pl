@@ -46,7 +46,7 @@ main :-
 		play_loop(S)
 	;  member(test([ID, D]), Opts) ->
 		test_setup(specification(ID, D), M, P),
-		write_w_ansi([erase_line], ''),
+		writeln(''), write_w_ansi([cursor_start_prev], ''),
 		test_run(P, M)
 	;
 		writeln('invalid option!')
