@@ -40,7 +40,7 @@ solve_log(running, D) :-
 solve_log(end, H) :-
 	maplist(solve_log_stringify_move, H, S0),
 	atomic_list_concat(S0, ',', S),
-	writeln_w_ansi([cursor_start_prev, erase_line], S).
+	writeln(S).
 
 % maps move to string
 solve_log_stringify_move(move(ID, D), S) :-
