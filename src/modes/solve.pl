@@ -10,7 +10,6 @@ solve_iterative_deepening(P, D0, MD) :-
 	solve_log(end, H).
 solve_iterative_deepening(P, D0, MD) :-
 	D0 #>= 0, D0 #< MD,
-	solve_log(running, D0),
 	\+ solve_do(P, D0, _),
 	D1 #= D0 + 1,
 	solve_iterative_deepening(P, D1, MD).
