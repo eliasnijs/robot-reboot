@@ -47,7 +47,6 @@ main(Argv) :-
 		play_loop(S)
 	;  member(test([ID, D]), Opts) ->
 		test_setup(specification(ID, D), M, P),
-		writeln(''), write_w_ansi([cursor_start_prev], ''),
 		test_run(P, M, _)
 	; member(plu(true), Opts) ->
 		run_tests
