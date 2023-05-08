@@ -83,9 +83,8 @@ display(puzzle, W, Y, P, ['\n'|Cs]) :-
 	Yn #= Y + 1,
 	display(puzzle, 0, Yn, P, Cs).
 display(puzzle, X, Y, P, [Dv|Cs]) :-
-	P = puzzle(board(_, _, Ws), Rs, target(TDv, Tp)),
-	( Tp = vec2(X, Y) ->
-		Dv = TDv
+	P = puzzle(board(_, _, Ws), Rs, T),
+	( T = target(Dv, vec2(X, Y))
 	; member(robot(_, Dv, vec2(X, Y)), Rs)
 	; member(wall(Dv, vec2(X, Y)), Ws)
 	; Dv = ' ' ),

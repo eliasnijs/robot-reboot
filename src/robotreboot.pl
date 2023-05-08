@@ -6,16 +6,16 @@ tileset(walls, ['━', '┃', '┏', '┓', '┗', '┛', '┣', '┫', '┳', '
 tileset(robots, [▣ ,■ ,▲ ,◆ ,◇ ,◈ ,◉ ,◩ ,◭ ,◲ ]).
 
 % checks if target is reached and returns victory if so or else the puzzle
-check_win(puzzle(_, [robot(_,_,P)|_], target(_, P)), victory).
+check_win(puzzle(_, [robot(0,_,P)|_], target(_, P)), victory).
 check_win(P, P).
 
 % move robot in direction, returns the puzzle after move
 move(P0, ID, Dir, puzzle(B, Rs, T)) :-
 	P0 = puzzle(B, Rs0, T),
 	B = board(_, _, Ws),
-	nth0(ID, Rs0, robot(ID, RDv, Rp0)),
+	nth0(Index, Rs0, robot(ID, RDv, Rp0)),
 	next_pos(Rp0, Dir, Ws, Rs0, Rp),
-	set_element(Rs0, ID, robot(ID, RDv, Rp), Rs).
+	set_element(Rs0, Index, robot(ID, RDv, Rp), Rs).
 
 % returns robot on the next posible position in a given direction
 next_pos(Rp0, Dir, _, Rs, Rp0) :-
