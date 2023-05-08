@@ -78,7 +78,9 @@ We bekijken nu elk van de drie modi in meer detail.
 De interactive/spel modus
 .LP
 We beginnen bij de interactieve/spel modus. In deze modus kan de gebruiker aan
-de hand van de terminal het spel spelen.
+de hand van de terminal het spel spelen. De code hiervoor kan men terugvinden
+onder
+.CW "src/modes/play.pl".
 
 .PSPIC -C "images/interactive.eps" 1.5i
 
@@ -99,9 +101,9 @@ De win/lose schermen
 
 De spel loop is een loop die loopt tot het doel bereikt wordt of tot
 de speler het programma verlaat. Elke iteratie van de loop gaat als volgt.
-Eerst wordt de huidige puzzel afgebeeld en daarna wordt er input gevraagt aan de
+Eerst wordt de huidige puzzel afgebeeld en daarna wordt er input gevraagd aan de
 speler. Eens de input geleverd is wordt deze afgehandeld en belanden we zo in de
-volgende iteratie terecht. De input kan een van volgende zaken zijn:
+volgende iteratie. De input kan een van volgende zaken zijn:
 .TS
 expand tab(:);
 lb lb
@@ -123,7 +125,7 @@ meeste geralteerde predicaten gebruikt wordt. Dit object ziet er als volgt uit:
 .BD
 .CW
 .ps -1
-session( puzzle(...), ID, H)
+session( puzzle(...), ID, H )
 .ps +1
 .Di
 .LP
@@ -135,15 +137,16 @@ is de geschiedenis van de zetten in string-vorm.
 
 Een ander opmerkelijke punt is het gebruik van de ansi-escape characters. Deze
 laten ons toe om kleur en andere effecten voor onze terminal output te
-specifieren. Om hier goed van gebruik te maken werden er predicaten
+specifieren. Om hier goed van gebruik te kunnen maken, werden er predicaten
 gedefinieerd. Deze zijn terug te vinden in
-.CW "src/utils/ansi.pl". Er werd verder ook een kleuren palet gedefinieerd, deze
+.CW "src/utils/ansi.pl".
+Er werd verder ook een kleuren palet gedefinieerd, dit
 valt terug te vinden in
 .CW "src/config.pl".
 
 Verder werd de weergave van de puzzel ook verbreed. Dit wordt gedaan door aan de
 rechterkant van elke cel een spatie of extra muur toe te voegen tijdens de
-weergave. Op deze manier is bord minder rechthoekig en ziet het er beter
+weergave. Op deze manier is het bord minder rechthoekig en ziet het er beter
 gebalanceerd uit. Intern wordt het bord wel nog in de normale dimensies
 opgeslaan.
 
@@ -161,17 +164,27 @@ dat in deze implementatie gebruikt werd is iterative deepening. Dit werd gekozen
 omwille van de interne werking van prolog. Prolog gebruikt intern immers
 Depth-First-Search. Door een maximum diepte mee te geven en deze incrementeel te
 verhogen kunnen we dus heel makkelijk een iterative-deepening algoritme
-implementeren.
+implementeren. De code hiervoor kan men terugvinden onder
+.CW "src/modes/solve.pl".
 
-De effectieve implementatie bestaat uit 3 delen: Het iterative deepening deel,
+De effectieve implementatie bestaat uit drie delen: Het iterative deepening deel,
 een dfs deel en een logging deel. Het iteratieve deel zal steeds het dfs deel
-oproepen met een maximum diepte. Dit zal blijven gebeuren met een incrementerede
-diepte tot een oplossing gevonden wordt. Het dfs deel bestaat voornamlijk uit de
-oplossings ruimte snoeien en de bewegingen uit voeren. De effectieve uitvoering
-van dfs is intern in prolog ingebouwd. Tot slot hebben we ook nog een logging
+oproepen met een maximum diepte. Dit zal blijven gebeuren, met een incrementerede
+diepte, tot een oplossing gevonden wordt. Het dfs deel bestaat voornamlijk uit de
+oplossingsruimte snoeien en de bewegingen uit voeren. De effectieve uitvoering
+van dfs is intern in prolog ingebouwd. Verder maken we, om dit te versnellen, gebruik van
+de
+.CW table
+directive voor het dfs deel.
+Deze directive zal er voor zorgen dat prolog intern aan memorisatie
+doet van voorgaande oplossingen waardoor een aanzienelijk deel van de
+bewerkingen kan weggelaten worden.
+Tot slot hebben we ook nog een logging
 deel. Deze wordt opgeroepen bij elke nieuwe diepte om de gebruiker op de hoogte
 te houden van hoe ver het algoritme zit. Daarnaast wordt deze ook opgeroepen op
-het einde om de optimale oplossingen naar de terminal uit te schrijven.
+het einde om de optimale oplossingen naar de terminal uit te schrijven. Helaas
+moest de logging tijdens de uitvoering weggelaten worden om aan de testen te
+kunnen voldoen.
 
 We kunnen bijvoorbeeld het volgende commando uitvoeren:
 .BD
@@ -196,9 +209,11 @@ We bekomen hiervoor de volgende oplossingen:
 .NH 2
 De genereer modus
 .LP
-De genereer modus bestaat uit loop. Deze loop bevat 2 delen: het
+De genereer modus bestaat uit een loop. Deze loop bevat 2 delen: het
 genereer deel en het oplos deel. Deze loop zal blijven duren tot er een puzzel
-gegenereerd wordt die oplosbaar is in een maximum aantal stappen.
+gegenereerd wordt die oplosbaar is in een maximum aantal stappen. De code
+hiervoor kan men terugvinden onder
+.CW "src/modes/generate.pl".
 
 Het genereren van de puzzels wordt gedaan door, met bepaalde beperkingen in
 gedachte, willekeurig het aantal obstakels te bepalen, en willekeurige posities
@@ -230,8 +245,8 @@ Conclusie
 We hebben een robot reboot implementatie succesvol gemaakt. We hebben
 ondervonden dat prolog een interessante taal is die ondanks zijn oude leeftijd
 nog hard in ontwikkeling is. In het algemeen kunnen we besluiten dat het kennen
-en kunnen van deze taal zeker een meerwaarde is voor de moderne programmeur. In
-het vervolg zouden we waarschijnlijk beter op voorhand plannen hoe bepaalde
-predicaten zich tegenover elkaar verhouden om de logica zo simpel en logisch
-mogelijk te houden.
+en kunnen van deze taal zeker een meerwaarde is. In
+het vervolg kan beter op voorhand plannen hoe bepaalde
+predicaten zich tegenover elkaar verhouden een meerwaarde zijn. Op deze manier
+kan de logica kleiner en simpeler blijven.
 
